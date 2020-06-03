@@ -47,6 +47,16 @@ function ListaPage() {
         closeDialog();
     }
 
+    async function apagar(id) { 
+        await api.delete(`/${id}`);
+        loadData();
+    }
+
+    async function atualizar(id, comprado) { 
+        await api.put(`/${id}`, {comprado: !comprado});
+        loadData();
+    }
+
     return <>
         <Header/>
         <Table style={{marginTop: '80px', marginBottom: '20px'}}>
@@ -57,11 +67,15 @@ function ListaPage() {
                         <TableCell style={{width: '70%'}}>{item.nome}</TableCell>
                         <TableCell>{item.quantidade}</TableCell>
                         <TableCell>
-                            <Switch checked={item.comprado} color="primary" />
+                            <Switch checked={item.comprado} color="primary" onChange={() => atualizar(item.id, item.comprado)}/>
                         </TableCell>
                         <TableCell>
-                            <Button variant="outlined" color="secondary" size="small">
-                                <DeleteIcon/> Apagar
+                            <Button 
+                                variant="outlined" 
+                                color="secondary" 
+                                size="small" 
+                                onClick={() => apagar(item.id)}>
+                                    <DeleteIcon/> Apagar
                             </Button>
                         </TableCell>
                     </TableRow>
