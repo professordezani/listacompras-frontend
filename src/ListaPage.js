@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import Header from './Header';
 import api from './api';
-import { interval } from 'rxjs';
+import { Table, TableRow, TableCell, Switch, Button} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 function ListaPage() { 
 
@@ -14,21 +15,30 @@ function ListaPage() {
 
     useMemo(loadData, []);
 
-    return <div>
+    return <>
         <Header/>
-        {/* <button onClick={loadData}>Carregar dados</button> */}
-        <table>
+        <Table style={{marginTop: '80px', marginBottom: '20px'}}>
             {
                 produtos.map(item => (
-                    <tr>
-                        <td>{item.id}</td>
-                        <td>{item.nome}</td>
-                        <td>{item.quantidade}</td>
-                    </tr>
+                    <TableRow>
+                        <TableCell>{item.id}</TableCell>
+                        <TableCell style={{width: '70%'}}>{item.nome}</TableCell>
+                        <TableCell>{item.quantidade}</TableCell>
+                        <TableCell>
+                            <Switch checked={item.comprado} color="primary" />
+                        </TableCell>
+                        <TableCell>
+                            <Button variant="outlined" color="secondary" size="small">
+                                <DeleteIcon/> Apagar
+                            </Button>
+                        </TableCell>
+                    </TableRow>
                 ))
             }
-        </table>
-    </div>
+        </Table>
+
+        <Button variant="contained" color="primary">Adicionar</Button>
+    </>
 }
 
 export default ListaPage;
